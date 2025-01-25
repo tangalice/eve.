@@ -8,6 +8,8 @@ client = Groq(
     api_key=os.getenv("GROQ_API_KEY")
 )
 
+user_prompt = "Kotex"
+
 chat_completion = client.chat.completions.create(
     #
     # Required parameters
@@ -17,13 +19,19 @@ chat_completion = client.chat.completions.create(
         # assistant and can be used to provide specific instructions for
         # how it should behave throughout the conversation.
         {
-            "role": "system",
-            "content": "you are a helpful assistant."
+            "role": "assistant",
+            "content": """
+                    You are a factual and informational assistant. When given the name of a feminine product such as a pad or tampon brand, provide a detailed description of the following: 
+                    1. Harmful ingredients included in the product.
+                    2. Potential side effects of using the product.
+                    3. Suggested cleaner alternatives to the product.
+                    4. A ranking on a scale from 1-5 of how safe it is to use, with 1 being mostly safe and 5 being highly unsafe.
+                """
         },
         # Set a user message for the assistant to respond to.
         {
             "role": "user",
-            "content": "Explain the importance of fast language models",
+            "content": user_prompt,
         }
     ],
 
