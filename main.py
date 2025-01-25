@@ -11,11 +11,13 @@ client = Groq(
 
 app = Flask(__name__)
 
-output = ""
+global output
+sections = []
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     global output
+    global sections
     if request.method == 'POST':
         search_query = request.form['search']
         # Here, you can do whatever you want with the search_query
@@ -32,7 +34,7 @@ def index():
                         5. A ranking on a scale from 1-5 of how safe it is to use, with 1 highly unsafe and 5 being mostly safe. Description title: "Ranking"
                         Do not use overly complex medical jargon, but still communicate the key information. 
                         Start with the name of the product, then a new line. 
-                        Then each description in a bulleted list, separated by a new line. Use the description title to start each bullet.
+                        Then each description in a bulleted list, separated by a new line. Use the description title to start each bullet. 
                     """
             },
             {
@@ -54,13 +56,15 @@ def index():
             stream=False,
         )
         output = chat_completion.choices[0].message.content
+        sections = [section.strip() for section in output.split('*') if section.strip()]
+
         print(output)
         # You can also save it to a file if you prefer
         with open("output.txt", "w") as f:
             f.write(output)
     
     # Render the HTML page and pass the output to it
-    return render_template('index.html', output=output)
+    return render_template('index.html', sections=sections)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5004)

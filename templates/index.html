@@ -67,6 +67,43 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        /* starting new styling her */
+        .beneficial {
+            background-color: #eb91df;
+            color: #000000;
+            padding: 10px;
+            border-left: 5px solid #ef84e1;
+        }
+
+        .harmful {
+            background-color: #fb79ba;
+            color: #000000;
+            padding: 10px;
+            border-left: 5px solid #e64fbe;
+        }
+
+        .side-effects {
+            background-color: #eb91df;
+            color: #000000;
+            padding: 10px;
+            border-left: 5px solid #ef84e1;
+        }
+
+        .alternatives {
+            background-color: #fb79ba;
+            color: #000000;
+            padding: 10px;
+            border-left: 5px solid #e64fbe;
+        }
+
+        .default {
+            background-color: #eb91df;
+            color: #000000;
+            padding: 10px;
+            border-left: 5px solid #ef84e1;
+        }
+
     </style>
 </head>
 <body>
@@ -80,19 +117,6 @@
                 <input type = "text" name = "search" style="flex-grow: 1; padding: 10px; margin-right: 10px;" placeholder = "Enter Product Name" required>
                 <button type = "submit">Search</button>
             </form>
-            {% if output %}
-            <h2>"Search Results: </h2>
-            <p>{{ output }}</p>
-            {% endif %}
-            <!--
-            <input
-                type="text"
-                placeholder="Search product name"
-                style="flex-grow: 1; padding: 10px; margin-right: 10px;"
-            >
-            -->
-
-
             <button class="upload-btn">
                 Search
             </button>
@@ -117,35 +141,23 @@
                 class="product-image"
             >
             <div class="product-details">
-                <h2>Tampon Ultra Absorbent</h2>
-                Category: Tampons
-
-                <h3>Ingredients</h3>
-                <div class="harmful-ingredient">
-                    <strong>Rayon</strong>
-                    <p>Potential Risk: Toxic Shock Syndrome</p>
+            {% if sections %}
+                <div>
+                    {% for section in sections %}
+                        {% if "Beneficial Ingredients" in section %}
+                            <p class="beneficial">{{ section }}</p>
+                        {% elif "Harmful Ingredients" in section %}
+                            <p class="harmful">{{ section }}</p>
+                        {% elif "Potential Side Effects" in section %}
+                            <p class="side-effects">{{ section }}</p>
+                        {% elif "Safer Alternatives" in section %}
+                            <p class="alternatives">{{ section }}</p>
+                        {% else %}
+                            <p class="default">{{ section }}</p>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-                <div class="safe-ingredient">
-                    <strong>Organic Cotton</strong>
-                    <p>Safe Natural Material</p>
-                </div>
-
-                <h3>Safety Rating</h3>
-                <div style="color: #FF3366; font-weight: bold;">
-                    Moderate Risk
-                </div>
-
-                <h3>Side Effects</h3>
-                <ul>
-                    <li>Potential Allergic Reactions</li>
-                    <li>Risk of Toxic Shock Syndrome</li>
-                </ul>
-
-                <h3>User Reviews</h3>
-                <div style="background-color: #FFE4E1; padding: 10px; border-radius: 5px;">
-                    ★★★☆☆ (3/5) - Mixed experiences
-                </div>
-            </div>
+            {% endif %}
         </div>
     </div>
 </body>
