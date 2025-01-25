@@ -68,10 +68,3 @@ def index():
 
 if __name__ == '__main__':
     app.run(debug=True, port=5004)
-
-#user_prompt = "Always"
-
-
-# Print the completion returned by the LLM.
-#output = chat_completion.choices[0].message.content
-#print(output)
