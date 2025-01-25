@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam Object Detection</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+        }
+        video {
+            border: 1px solid black;
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        .label {
+            position: absolute;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <video id="videoElement" width="640" height="480" autoplay></video>
+    <canvas id="canvasElement" width="640" height="480"></canvas>
+
+    <script>
+        const videoElement = document.getElementById('videoElement');
+        const canvasElement = document.getElementById('canvasElement');
+        const ctx = canvasElement.getContext('2d');
+
+        // Access webcam and start video stream
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+                videoElement.srcObject = stream;
+            })
+            .catch(function (err) {
+                console.error("Error accessing webcam: ", err);
+            });
+
+        // Send frames to backend for object detection
+        async function detectFrame() {
+
+            // Get image data from the canvas
+
+            // Send image to the backend for YOLO detection
+            const response = await fetch('/detect', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ image: imageData })
+            });
+
+            const data = await response.json();
+
+            // Clear previous detections
+            ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+
+            // Redraw the current video frame
+            ctx.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+
+            // Draw bounding boxes and labels
+            data.predictions.forEach(prediction => {
+                const { label, x, y, width, height } = prediction;
+
+                // Draw bounding box
+                ctx.beginPath();
+                ctx.rect(x, y, width, height);
+                ctx.strokeStyle = 'red';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Draw label
+                const labelElement = document.createElement('div');
+                labelElement.className = 'label';
+                labelElement.style.left = `${x}px`;
+                labelElement.style.top = `${y + height + 5}px`;
+                labelElement.textContent = label;
+                document.body.appendChild(labelElement);
+            });
+
+            // Continue detecting frames
+            requestAnimationFrame(detectFrame);
+        }
+
+        // Start detecting when the video is ready
+        videoElement.onloadeddata = function () {
+            detectFrame();
+        };
+    </script>
+</body>
+</html>
