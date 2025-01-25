@@ -1,6 +1,7 @@
 import os
 from groq import Groq
 from dotenv import load_dotenv
+from flask import Flask, render_template, request
 
 load_dotenv()
 
@@ -8,66 +9,65 @@ client = Groq(
     api_key=os.getenv("GROQ_API_KEY")
 )
 
-user_prompt = "Always"
+app = Flask(__name__)
 
-chat_completion = client.chat.completions.create(
-    #
-    # Required parameters
-    #
-    messages=[
-        # Set an optional system message. This sets the behavior of the
-        # assistant and can be used to provide specific instructions for
-        # how it should behave throughout the conversation.
-        {
-            "role": "assistant",
-            "content": """
-                    You are a factual and informational assistant. When given the name of a feminine product such as a pad or tampon brand, provide a 1-sentence description of the following: 
-                    1. Beneficial ingredients included in the product if there are any. If not, skip this line. Description title: "Beneficial Ingredients"
-                    2. Harmful ingredients included in the product. Description title: "Harmful Ingredients"
-                    3. Potential side effects of using the product. Description title: "Potential Side Effects"
-                    4. Suggested safer alternatives to the product. Description title: "Safer Alternatives"
-                    5. A ranking on a scale from 1-5 of how safe it is to use, with 1 highly unsafe and 5 being mostly safe. Description title: "Ranking"
-                    Do not use overly complex medical jargon, but still communicate the key information. 
-                    Start with the name of the product, then a new line. 
-                    Then each description in a bulleted list, separated by a new line. Use the description title to start each bullet.
-                """
-        },
-        # Set a user message for the assistant to respond to.
-        {
-            "role": "user",
-            "content": user_prompt,
-        }
-    ],
+output = ""
 
-    # The language model which will generate the completion.
-    model="llama-3.3-70b-versatile",
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    global output
+    if request.method == 'POST':
+        search_query = request.form['search']
+        # Here, you can do whatever you want with the search_query
+        chat_completion = client.chat.completions.create(
+            messages=[
+            {
+                "role": "assistant",
+                "content": """
+                        You are a factual and informational assistant. When given the name of a feminine product such as a pad or tampon brand, provide a 1-sentence description of the following: 
+                        1. Beneficial ingredients included in the product if there are any. If not, skip this line. Description title: "Beneficial Ingredients"
+                        2. Harmful ingredients included in the product. Description title: "Harmful Ingredients"
+                        3. Potential side effects of using the product. Description title: "Potential Side Effects"
+                        4. Suggested safer alternatives to the product. Description title: "Safer Alternatives"
+                        5. A ranking on a scale from 1-5 of how safe it is to use, with 1 highly unsafe and 5 being mostly safe. Description title: "Ranking"
+                        Do not use overly complex medical jargon, but still communicate the key information. 
+                        Start with the name of the product, then a new line. 
+                        Then each description in a bulleted list, separated by a new line. Use the description title to start each bullet.
+                    """
+            },
+            {
+                "role": "user",
+                "content": search_query,
+            }
+            ],
 
-    #
-    # Optional parameters
-    #
+            model="llama-3.3-70b-versatile",
 
-    # Controls randomness: lowering results in less random completions.
-    # As the temperature approaches zero, the model will become deterministic
-    # and repetitive.
-    temperature=0.5,
+            temperature=0.5,
 
-    # The maximum number of tokens to generate. Requests can use up to
-    # 32,768 tokens shared between prompt and completion.
-    max_completion_tokens=1024,
+            max_completion_tokens=1024,
 
-    # Controls diversity via nucleus sampling: 0.5 means half of all
-    # likelihood-weighted options are considered.
-    top_p=1,
+            top_p=1,
 
-    # A stop sequence is a predefined or user-specified text string that
-    # signals an AI to stop generating content, ensuring its responses
-    # remain focused and concise. Examples include punctuation marks and
-    # markers like "[end]".
-    stop=None,
+            stop=None,
 
-    # If set, partial message deltas will be sent.
-    stream=False,
-)
+            stream=False,
+        )
+        output = chat_completion.choices[0].message.content
+        print(output)
+        # You can also save it to a file if you prefer
+        with open("output.txt", "w") as f:
+            f.write(output)
+    
+    # Render the HTML page and pass the output to it
+    return render_template('index.html', output=output)
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5004)
+
+#user_prompt = "Always"
+
 
 # Print the completion returned by the LLM.
-print(chat_completion.choices[0].message.content)
+#output = chat_completion.choices[0].message.content
+#print(output)
