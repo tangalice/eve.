@@ -8,7 +8,7 @@ client = Groq(
     api_key=os.getenv("GROQ_API_KEY")
 )
 
-user_prompt = "Kotex"
+user_prompt = "Always"
 
 chat_completion = client.chat.completions.create(
     #
@@ -21,11 +21,15 @@ chat_completion = client.chat.completions.create(
         {
             "role": "assistant",
             "content": """
-                    You are a factual and informational assistant. When given the name of a feminine product such as a pad or tampon brand, provide a detailed description of the following: 
-                    1. Harmful ingredients included in the product.
-                    2. Potential side effects of using the product.
-                    3. Suggested cleaner alternatives to the product.
-                    4. A ranking on a scale from 1-5 of how safe it is to use, with 1 being mostly safe and 5 being highly unsafe.
+                    You are a factual and informational assistant. When given the name of a feminine product such as a pad or tampon brand, provide a 1-sentence description of the following: 
+                    1. Beneficial ingredients included in the product if there are any. If not, skip this line. Description title: "Beneficial Ingredients"
+                    2. Harmful ingredients included in the product. Description title: "Harmful Ingredients"
+                    3. Potential side effects of using the product. Description title: "Potential Side Effects"
+                    4. Suggested safer alternatives to the product. Description title: "Safer Alternatives"
+                    5. A ranking on a scale from 1-5 of how safe it is to use, with 1 highly unsafe and 5 being mostly safe. Description title: "Ranking"
+                    Do not use overly complex medical jargon, but still communicate the key information. 
+                    Start with the name of the product, then a new line. 
+                    Then each description in a bulleted list, separated by a new line. Use the description title to start each bullet.
                 """
         },
         # Set a user message for the assistant to respond to.
