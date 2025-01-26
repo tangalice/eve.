@@ -72,11 +72,12 @@
     padding: 10px;
     border-radius: 5px;
 }
-
+/**
 .beneficial {
-    background-color: #fed5d5;
     color: #7D5C5C;
     border-left: 5px solid #fac2c2;
+    border-right: 50px solid #FFEFEF;
+    font-size: 20px;
 }
 
 .harmful {
@@ -102,9 +103,39 @@
     color: #7D5C5C;
     border-left: 5px solid #fac2c2;
 }
+**/
+.beneficial, .harmful, .side-effects, .alternatives, .default {
+    color: #7D5C5C;
+    border-left: 5px solid #fac2c2;
+    border-right: 50px solid #FFEFEF;
+    font-size: 20px;
+}
+</style>   
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Find all paragraphs inside product-details
+        const paragraphs = document.querySelectorAll('.product-details p');
+        
+        paragraphs.forEach(function(p) {
+            // Get the text of the paragraph
+            let text = p.textContent;
+            
+            // Find the position of the colon
+            let colonIndex = text.indexOf(':');
+            
+            if (colonIndex !== -1) {
+                // Split the text into bold part and regular part
+                let boldText = text.substring(0, colonIndex + 1);  // Include colon in the bold part
+                let regularText = text.substring(colonIndex + 1);
+                
+                // Create a new inner HTML with bold text
+                p.innerHTML = `<strong>${boldText}</strong><br>${regularText}`;
+            }
+        });
+    });
+</script>
 
-</style>    
 </head>
 <body>
     <div class="container">
