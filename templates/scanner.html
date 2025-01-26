@@ -1,5 +1,123 @@
-<html>
-    <body>
-        <h1>Scanner Page</h1>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scanner</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+    <style>
+        body {
+            font-family: 'Freeman', sans-serif;
+            background-color: #FFEFEF;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #FFFFFF;
+            color: #fff;
+            padding: 5px;
+            text-align: left;
+        }
+        .header-title {
+            font-family: 'Lobster', cursive;
+            color: #FF6565;
+            font-size: 50px;
+            padding-left: 20px;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            text-align: left;
+            height: calc(100vh - 80px);
+            margin: 20px;
+        }
+        .video-container {
+            width: 50%;
+            max-width: 800px;
+            aspect-ratio: 4 / 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        video {
+            width: 100%;
+            height: auto;
+            border: 5px solid #FFB6B6;
+            border-radius: 15px;
+            box-sizing: border-box;
+        }
+        .capture-button {
+            background-color: #FF6565;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .capture-button:hover {
+            background-color: #FF7777;
+        }
+        #result {
+            color: #7D5C5C;
+            font-size: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="header-title">eve.</h1>
+    </header>
+    <div class="container">
+        <div class="video-container">
+            <video id="webcam" autoplay></video>
+            <button class="capture-button" onclick="capture()">Capture</button>
+        </div>
+        <div style="flex-grow: 1; padding-left: 20px;">
+            <canvas id="canvas" hidden></canvas>
+            <p id="result"></p>
+        </div>
+    </div>
+
+    <script>
+        // Access the webcam
+        const video = document.getElementById('webcam');
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            });
+
+        // Capture and send image to the server
+        function capture() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const imageData = canvas.toDataURL('image/jpeg');
+
+            fetch('/scanner/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ image: imageData })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = 
+                    `Product: ${data.class}, Confidence: ${(data.confidence * 100).toFixed(2)}%`;
+            })
+            .catch(err => console.error(err));
+        }
+    </script>
+</body>
 </html>
