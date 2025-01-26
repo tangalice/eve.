@@ -69,18 +69,12 @@
         .box-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 30px; /* Adds space between the boxes */
-            justify-content: flex-start; /* Keep boxes aligned to the left */
-            margin-left: 150px; /* Pushes the container to the right */
+
+            gap: 30px;
+            justify-content: flex-start;
+            margin-left: 150px;
             align-items: center;
         }
-
-
-        .box-container .box:first-of-type p {
-            font-weight: bold;
-            font-size: 35px; /* Larger font size */
-        }
-
 
         .box {
             background-color: white;
@@ -88,12 +82,12 @@
             padding: 25px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px; /* Increased width */
-            height: 350px; /* Increased height */
+            width: 300px;
+            height: 350px;
             display: inline-block;
             box-sizing: border-box;
-            margin: 10px; /* Adds spacing between the boxes */
-            overflow: auto; /* Ensures text doesn't overflow */
+            margin: 10px;
+            overflow: auto;
         }
 
         .box p {
@@ -101,11 +95,35 @@
             color: #7D5C5C;
             margin: 0;
             line-height: 1.5;
-            height: 100%; /* Ensures text doesn't overflow */
+
+            height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Align text to the top */
-            overflow-y: auto; /* Allows scrolling if text exceeds box size */
+            justify-content: flex-start;
+            overflow-y: auto;
+        }
+
+        .first-box {
+            font-size: 1000px;
+            display: flex; /* Flexbox for centering */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            text-align: center; /* Center text alignment */
+            height: 100%;
+            margin-left: 330px;
+            justify-content: center;
+            background-color: transparent;
+            color: transparent;
+            box-shadow: 0 0px 0px transparent;
+            border: 0px transparent;
+        }
+
+        .first-box p {
+            font-weight: bold;
+            font-size: 36px; /* Bigger font size */
+            line-height: 1.6; /* Adjust spacing for readability */
+            margin: 0; /* Remove default margins */
+
         }
 
         a {
@@ -115,26 +133,82 @@
 
     </style>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Find all paragraphs inside product-details
-            const paragraphs = document.querySelectorAll('.product-details p');
-            
-            paragraphs.forEach(function(p) {
-                // Get the text of the paragraph
-                let text = p.textContent;
-                
-                // Find the position of the colon
-                let colonIndex = text.indexOf(':');
-                
-                if (colonIndex !== -1) {
-                    // Split the text into bold part and regular part
-                    let boldText = text.substring(0, colonIndex + 1);  // Include colon in the bold part
-                    let regularText = text.substring(colonIndex + 1);
-                    
-                    // Correctly update the inner HTML
-                    p.innerHTML = `<strong style="font-size: 35px;">${boldText}</strong><br>${regularText}`;
+        function applyColorsAndFormat() {
+            const allParagraphs = document.querySelectorAll('.product-details p');
+
+            allParagraphs.forEach((paragraph, index) => {
+                const box = paragraph.parentNode;
+
+                // Handle the first box differently
+                if (index === 0) {
+                    box.classList.add('first-box');
+    
+                } else {
+                    // Format all other boxes by bolding text before the colon
+                    let text = paragraph.textContent;
+
+                    let colonIndex = text.indexOf(':');
+                    if (colonIndex !== -1) {
+                        let boldText = text.substring(0, colonIndex + 1); // Include the colon
+                        let regularText = text.substring(colonIndex + 1).trim();
+
+                        paragraph.innerHTML = `<strong style="font-size: 22px;">${boldText}</strong> ${regularText}`;
+                    }
+                }
+
+                // Special formatting for "Safer Alternatives" (newline before every dash)
+                if (paragraph.classList.contains('alternatives')) {
+                    let text = paragraph.innerHTML; // Use innerHTML to preserve existing formatting
+
+                    // Preserve bold for text before the colon and add newlines for dashes
+                    let colonIndex = text.indexOf(':');
+                    if (colonIndex !== -1) {
+                        let boldText = text.substring(0, colonIndex + 1);
+                        let restText = text.substring(colonIndex + 1).trim();
+
+                        let formattedText = restText.replace(/-/g, '<br>-'); // Add a <br> before every dash
+                        paragraph.innerHTML = `<p style="font-size: 22px;">${boldText}</p> ${formattedText}`;
+                    } else {
+                        // If no colon, just add newlines before dashes
+                        let formattedText = text.replace(/-/g, '<br>-');
+                        paragraph.innerHTML = formattedText;
+                    }
+                }
+
+                // Extract the first number for color application
+                let match = paragraph.textContent.match(/\d+/);
+                let value = match ? parseInt(match[0]) : null;
+
+                if (value !== null) {
+                    switch (value) {
+                        case 1:
+                            box.style.backgroundColor = '#FF9AA2'; // Light pink
+                            break;
+                        case 2:
+                            box.style.backgroundColor = '#FFB7B2'; // Light orange
+                            break;
+                        case 3:
+                            box.style.backgroundColor = '#FFFFCE'; // Light yellow
+                            break;
+                        case 4:
+                            box.style.backgroundColor = '#C7CEEA'; // Light blue
+                            break;
+                        case 5:
+                            box.style.backgroundColor = '#B5EAD7'; // Pastel green
+                            break;
+                        default:
+                            box.style.backgroundColor = '#FFFFFF'; // White
+                    }
                 }
             });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            applyColorsAndFormat();
+        });
+
+        document.querySelector("form").addEventListener("submit", function (event) {
+            setTimeout(() => applyColorsAndFormat(), 100); // Reapply colors and formatting after new content loads
         });
     </script>
 </head>
