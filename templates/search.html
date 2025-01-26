@@ -1,170 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
-    <header>
-        <h1 class="header-title">eve.</h1>
-    </header>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">   
 <head>
     <meta charset="UTF-8">
     <title>uterUS</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
     <style>
-       body {
-      font-family: 'Freeman', sans-serif;
-      background-color: #FFEFEF;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #FFFFFF;
-      color: #fff;
-      padding: 5px;
-      text-align: left;
-    }
-    .header-title {
-      font-family: 'Lobster', cursive;
-      color: #FF6565;
-      justify-content: left;
-      font-size: 60px;
-      padding-left: 20px;
-      margin: 0;
-    }
-    .container {
-      justify-content: left;
-      align-items: left;
-      padding-left: 7%;
-      height: calc(100vh - 80px);
-      margin-top: 5%;
-    }
-    .content {
-      font-family: 'Freeman', sans-serif;
-      text-align: left;
-      padding-left: 0%;
-      color: #7D5C5C;
-      font-size: 25px;
-    }
-    .checker-title {
-      color: #FF7777;
-      font-size: 60px;
-    }
-    .heart-image {
-      width: 450px;
-      height: 400px;
-      padding-top: 30px;
-    }
-    .get-started-button {
-      background-color: #FF6565;
-      border: none;
-      color: #fff;
-      padding: 10px 20px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 20px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    a {
-        color: white;
-        text-decoration: none;
-    }
-.product-details p {
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
-}
-/**
-.beneficial {
-    color: #7D5C5C;
-    border-left: 5px solid #fac2c2;
-    border-right: 50px solid #FFEFEF;
-    font-size: 20px;
-}
+        body {
+            font-family: 'Freeman', sans-serif;
+            background-color: #FFEFEF;
+            margin: 0;
+            padding: 0;
+        }
 
-.harmful {
-    background-color: #fed5d5;
-    color: #7D5C5C;
-    border-left: 5px solid #fac2c2;
-}
+        header {
+            background-color: #FFFFFF;
+            color: #fff;
+            padding: 5px;
+            text-align: left;
+        }
 
-.side-effects {
-    background-color: #fed5d5;
-    color: #7D5C5C;
-    border-left: 5px solid #fac2c2;
-}
+        .header-title {
+            font-family: 'Lobster', cursive;
+            color: #FF6565;
+            justify-content: left;
+            font-size: 60px;
+            padding-left: 20px;
+            margin: 0;
+        }
 
-.alternatives {
-    background-color: #fed5d5;
-    color: #7D5C5C;
-    border-left: 5px solid #fac2c2;
-}
+        .container {
+            padding-left: 7%;
+            padding-right: 7%;
+            margin-top: 5%;
+        }
 
-.default {
-    background-color: #fed5d5;
-    color: #7D5C5C;
-    border-left: 5px solid #fac2c2;
-}
-**/
-.beneficial, .harmful, .side-effects, .alternatives, .default {
-    color: #7D5C5C;
-    border-left: 5px solid #fac2c2;
-    border-right: 50px solid #FFEFEF;
-    font-size: 20px;
-}
-</style>   
+        .search-section {
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Find all paragraphs inside product-details
-        const paragraphs = document.querySelectorAll('.product-details p');
-        
-        paragraphs.forEach(function(p) {
-            // Get the text of the paragraph
-            let text = p.textContent;
+        .search-section input[type="text"] {
+            flex-grow: 1;
+            padding: 20px;
+            font-size: 18px;
+            height: 60px;
+            width: 70%;
+            border-radius: 8px;
+            border: 1px solid #fac2c2;
+            box-sizing: border-box;
+        }
+
+        .get-started-button {
+            background-color: #FF6565;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            height: 60px;
+            width: 150px;
+            margin-top: 20px;
+        }
+
+        .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px; /* Adds space between the boxes */
+            justify-content: flex-start; /* Keep boxes aligned to the left */
+            margin-left: 150px; /* Pushes the container to the right */
+            align-items: center;
+        }
+
+
+        .box-container .box:first-of-type p {
+            font-weight: bold;
+            font-size: 35px; /* Larger font size */
+        }
+
+
+        .box {
+            background-color: white;
+            border: 2px solid #FF6565;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px; /* Increased width */
+            height: 350px; /* Increased height */
+            display: inline-block;
+            box-sizing: border-box;
+            margin: 10px; /* Adds spacing between the boxes */
+            overflow: auto; /* Ensures text doesn't overflow */
+        }
+
+        .box p {
+            font-size: 20px;
+            color: #7D5C5C;
+            margin: 0;
+            line-height: 1.5;
+            height: 100%; /* Ensures text doesn't overflow */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Align text to the top */
+            overflow-y: auto; /* Allows scrolling if text exceeds box size */
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Find all paragraphs inside product-details
+            const paragraphs = document.querySelectorAll('.product-details p');
             
-            // Find the position of the colon
-            let colonIndex = text.indexOf(':');
-            
-            if (colonIndex !== -1) {
-                // Split the text into bold part and regular part
-                let boldText = text.substring(0, colonIndex + 1);  // Include colon in the bold part
-                let regularText = text.substring(colonIndex + 1);
+            paragraphs.forEach(function(p) {
+                // Get the text of the paragraph
+                let text = p.textContent;
                 
-                // Create a new inner HTML with bold text
-                p.innerHTML = `<strong>${boldText}</strong><br>${regularText}`;
-            }
+                // Find the position of the colon
+                let colonIndex = text.indexOf(':');
+                
+                if (colonIndex !== -1) {
+                    // Split the text into bold part and regular part
+                    let boldText = text.substring(0, colonIndex + 1);  // Include colon in the bold part
+                    let regularText = text.substring(colonIndex + 1);
+                    
+                    // Correctly update the inner HTML
+                    p.innerHTML = `<strong style="font-size: 35px;">${boldText}</strong><br>${regularText}`;
+                }
+            });
         });
-    });
-</script>
-
+    </script>
 </head>
+
 <body>
+    <header>
+        <a href="{{ url_for('index') }}" style="text-decoration: none;">
+            <h1 class="header-title">eve.</h1>
+        </a>
+    </header>
+
     <div class="container">
+        <!-- Search bar at the top -->
         <div class="search-section">
             <form action="{{ url_for('search') }}" method="POST">
-                <input type = "text" name = "search" style="flex-grow: 1; padding: 10px; margin-right: 10px;" placeholder = "Enter Product Name" required>
-                <button type = "submit">Search</button>
+                <input type="text" name="search" placeholder="Enter Product Name" required>
+                <button class="get-started-button">
+                    <a href="{{ url_for('search') }}">Search</a>
+                </button>
             </form>
         </div>
 
-        <div class="product-card">
-            <div class="product-details">
-            {% if sections %}
-                <div>
-                    {% for section in sections %}
-                        {% if "Beneficial Ingredients" in section %}
-                            <p class="beneficial">{{ section }}</p>
-                        {% elif "Harmful Ingredients" in section %}
-                            <p class="harmful">{{ section }}</p>
-                        {% elif "Potential Side Effects" in section %}
-                            <p class="side-effects">{{ section }}</p>
-                        {% elif "Safer Alternatives" in section %}
-                            <p class="alternatives">{{ section }}</p>
-                        {% else %}
-                            <p class="default">{{ section }}</p>
-                        {% endif %}
-                    {% endfor %}
+        <!-- Container for the boxes -->
+        <div class="box-container">
+            <div class="product-card">
+                <div class="product-details">
+                    {% if sections %}
+                        <div>
+                            {% for section in sections %}
+                                {% if "Beneficial Ingredients" in section %}
+                                    <div class="box"><p class="beneficial">{{ section }}</p></div>
+                                {% elif "Harmful Ingredients" in section %}
+                                    <div class="box"><p class="harmful">{{ section }}</p></div>
+                                {% elif "Potential Side Effects" in section %}
+                                    <div class="box"><p class="side-effects">{{ section }}</p></div>
+                                {% elif "Safer Alternatives" in section %}
+                                    <div class="box"><p class="alternatives">{{ section }}</p></div>
+                                {% else %}
+                                    <div class="box"><p class="default">{{ section }}</p></div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
-            {% endif %}
+            </div>
         </div>
     </div>
 </body>
