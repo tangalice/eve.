@@ -10,64 +10,158 @@
             margin: 0;
             color: #333;
         }
+        
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             background-color: white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 20px;
         }
+        
         .header {
-            background-color: #FF3366;
+            background-color: #FF66B2;
             color: white;
-            padding: 15px;
+            padding: 20px;
             text-align: center;
+            border-radius: 10px 10px 0 0;
+            font-size: 2.5rem;
         }
+        
         .search-section {
             display: flex;
+            justify-content: space-between;
             padding: 20px;
             background-color: #FFE4E1;
+            border-radius: 8px;
+            margin-bottom: 30px;
         }
+        
+        .search-section form {
+            display: flex;
+            flex-grow: 1;
+        }
+        
+        .search-section input {
+            flex-grow: 1;
+            padding: 12px;
+            margin-right: 15px;
+            border: 2px solid #FF66B2;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        .search-section input:focus {
+            border-color: #FF3366;
+        }
+        
+        .search-section button {
+            background-color: #FF66B2;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .search-section button:hover {
+            background-color: #FF3366;
+        }
+        
+        .upload-btn {
+            background-color: #FF66B2;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 15px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .upload-btn:hover {
+            background-color: #FF3366;
+        }
+        
         .product-card {
             background-color: #FFF5EE;
             border: 1px solid #FFB6C1;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px;
+            border-radius: 12px;
+            padding: 20px;
             display: flex;
+            flex-direction: column;
+            margin-top: 30px;
         }
+        
         .product-image {
             width: 200px;
             height: 200px;
             object-fit: cover;
-            margin-right: 20px;
+            margin-bottom: 20px;
             border-radius: 8px;
         }
+        
         .product-details {
             flex-grow: 1;
         }
-        .harmful-ingredient {
-            background-color: #FFD7D7;
+        
+        .beneficial {
+            background-color: #FFF5EE;
             color: #8B0000;
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 5px solid #FF66B2;
+            border-radius: 8px;
+            font-size: 1.1rem;
         }
-        .safe-ingredient {
-            background-color: #D7FFD7;
+        
+        .harmful {
+            background-color: #FFF5EE;
+            color: #8B0000;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 5px solid #FF3366;
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .side-effects {
+            background-color: #FFF5EE;
+            color: #8B0000;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 5px solid #FF66B2;
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .alternatives {
+            background-color: #FFF5EE;
             color: #006400;
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 5px solid #66CC66;
+            border-radius: 8px;
+            font-size: 1.1rem;
         }
-        .upload-btn {
-            background-color: #FF3366;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
+        
+        .default {
+            background-color: #FFF5EE;
+            color: #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 5px solid #FFB6C1;
+            border-radius: 8px;
+            font-size: 1.1rem;
         }
-    </style>
+</style>    
 </head>
 <body>
     <div class="container">
@@ -76,76 +170,34 @@
         </div>
 
         <div class="search-section">
-            <form action="/" method = "POST">
+            <form action="{{ url_for('search') }}" method="POST">
                 <input type = "text" name = "search" style="flex-grow: 1; padding: 10px; margin-right: 10px;" placeholder = "Enter Product Name" required>
                 <button type = "submit">Search</button>
             </form>
-            {% if output %}
-            <h2>"Search Results: </h2>
-            <p>{{ output }}</p>
-            {% endif %}
-            <!--
-            <input
-                type="text"
-                placeholder="Search product name"
-                style="flex-grow: 1; padding: 10px; margin-right: 10px;"
-            >
-            -->
-
-
             <button class="upload-btn">
                 Search
-            </button>
-            <input
-                type="file"
-                accept="image/*"
-                style="display: none;"
-                id="image-upload"
-            >
-            <button
-                class="upload-btn"
-                onclick="document.getElementById('image-upload').click();"
-            >
-                Upload Image
             </button>
         </div>
 
         <div class="product-card">
-            <img
-                src="https://via.placeholder.com/200x200.png?text=Tampon+Ultra"
-                alt="Tampon Ultra Absorbent"
-                class="product-image"
-            >
             <div class="product-details">
-                <h2>Tampon Ultra Absorbent</h2>
-                Category: Tampons
-
-                <h3>Ingredients</h3>
-                <div class="harmful-ingredient">
-                    <strong>Rayon</strong>
-                    <p>Potential Risk: Toxic Shock Syndrome</p>
+            {% if sections %}
+                <div>
+                    {% for section in sections %}
+                        {% if "Beneficial Ingredients" in section %}
+                            <p class="beneficial">{{ section }}</p>
+                        {% elif "Harmful Ingredients" in section %}
+                            <p class="harmful">{{ section }}</p>
+                        {% elif "Potential Side Effects" in section %}
+                            <p class="side-effects">{{ section }}</p>
+                        {% elif "Safer Alternatives" in section %}
+                            <p class="alternatives">{{ section }}</p>
+                        {% else %}
+                            <p class="default">{{ section }}</p>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-                <div class="safe-ingredient">
-                    <strong>Organic Cotton</strong>
-                    <p>Safe Natural Material</p>
-                </div>
-
-                <h3>Safety Rating</h3>
-                <div style="color: #FF3366; font-weight: bold;">
-                    Moderate Risk
-                </div>
-
-                <h3>Side Effects</h3>
-                <ul>
-                    <li>Potential Allergic Reactions</li>
-                    <li>Risk of Toxic Shock Syndrome</li>
-                </ul>
-
-                <h3>User Reviews</h3>
-                <div style="background-color: #FFE4E1; padding: 10px; border-radius: 5px;">
-                    ★★★☆☆ (3/5) - Mixed experiences
-                </div>
-            </div>
+            {% endif %}
         </div>
     </div>
 </body>

@@ -14,8 +14,8 @@ app = Flask(__name__)
 global output
 sections = []
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
+@app.route('/search', methods=['GET', 'POST'])
+def search():
     global output
     global sections
     if request.method == 'POST':
@@ -64,7 +64,11 @@ def index():
             f.write(output)
     
     # Render the HTML page and pass the output to it
-    return render_template('index.html', sections=sections)
+    return render_template('search.html', sections=sections)
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=5004)
