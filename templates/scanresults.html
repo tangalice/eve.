@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>uterUS</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">   
+    <style>
+        body {
+            font-family: 'Freeman', sans-serif;
+            background-color: #FFEFEF;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #FFFFFF;
+            color: #fff;
+            padding: 5px;
+            text-align: left;
+        }
+        .header-title {
+            font-family: 'Lobster', cursive;
+            color: #FF6565;
+            justify-content: left;
+            font-size: 60px;
+            padding-left: 20px;
+            margin: 0;
+        }
+        .container {
+            justify-content: left;
+            align-items: left;
+            padding-left: 7%;
+            height: calc(100vh - 80px);
+            margin-top: 5%;
+        }
+        .content {
+            font-family: 'Freeman', sans-serif;
+            text-align: left;
+            padding-left: 0%;
+            color: #7D5C5C;
+            font-size: 25px;
+        }
+        .checker-title {
+            color: #FF7777;
+            font-size: 60px;
+        }
+        .heart-image {
+            width: 450px;
+            height: 400px;
+            padding-top: 30px;
+        }
+        .get-started-button {
+            background-color: #FF6565;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        a {
+            color: white;
+            text-decoration: none;
+        }
+        .product-details p {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .beneficial, .harmful, .side-effects, .alternatives, .default {
+            color: #7D5C5C;
+            border-left: 5px solid #fac2c2;
+            border-right: 50px solid #FFEFEF;
+            font-size: 20px;
+        }
+    </style>   
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const paragraphs = document.querySelectorAll('.product-details p');
+            paragraphs.forEach(function(p) {
+                let text = p.textContent;
+                let colonIndex = text.indexOf(':');
+                if (colonIndex !== -1) {
+                    let boldText = text.substring(0, colonIndex + 1);
+                    let regularText = text.substring(colonIndex + 1);
+                    p.innerHTML = `<strong>${boldText}</strong><br>${regularText}`;
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="product-card">
+            <div class="product-details">
+                {% if sections %}
+                    <div>
+                        {% for section in sections %}
+                            {% if "Beneficial Ingredients" in section %}
+                                <p class="beneficial">{{ section }}</p>
+                            {% elif "Harmful Ingredients" in section %}
+                                <p class="harmful">{{ section }}</p>
+                            {% elif "Potential Side Effects" in section %}
+                                <p class="side-effects">{{ section }}</p>
+                            {% elif "Safer Alternatives" in section %}
+                                <p class="alternatives">{{ section }}</p>
+                            {% else %}
+                                <p class="default">{{ section }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
