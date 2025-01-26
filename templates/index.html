@@ -32,14 +32,23 @@
       align-items: left;
       padding-left: 7%;
       height: calc(100vh - 80px);
+      margin-top: 5%;
     }
     .content {
+      font-family: 'Freeman', sans-serif;
       text-align: left;
-      padding-left: 10%;
+      padding-left: 0%;
+      color: #7D5C5C;
+      font-size: 25px;
+    }
+    .checker-title {
+      color: #FF7777;
+      font-size: 60px;
     }
     .heart-image {
-      width: 70px;
-      height: 70px;
+      width: 450px;
+      height: 400px;
+      padding-top: 30px;
     }
     .get-started-button {
       background-color: #FF6565;
@@ -49,7 +58,7 @@
       text-align: center;
       text-decoration: none;
       display: inline-block;
-      font-size: 16px;
+      font-size: 20px;
       border-radius: 8px;
       cursor: pointer;
     }
@@ -60,11 +69,13 @@
     <h1 class="header-title">eve.</h1>
   </header>
   <div class="container">
-    <div class="content">
-      <img src="./src/heart.png" alt="Menstrual Products" class="product-image" />
-      <h2>Menstrual Product Ingredient Checker</h2>
+    <div style="width: 60%; height: 80%; float:right;" class="content">
+      <h2 class="checker-title">Menstrual Product Ingredient Checker</h2>
       <p>Scan Smart, Choose Safer: Your guardian for clean period care</p>
-      <button class="get-started-button">Get Started</button>
+      <button style="margin-top: 20px;" class="get-started-button">Get Started</button>
+    </div>
+    <div style="width: 40%; height: 80%; float:left;">
+      <img src="./src/heart.png" alt="Menstrual Products" class="heart-image" />
     </div>
   </div>
 </body>
