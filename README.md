@@ -1,8 +1,8 @@
 <div style = "background-color: #ffefef; padding: 20px; color: #7D5C5C">
 
-<h1>🌸 Eve: AI-Powered Feminine Product Scanner & Search 🌸</h1>
+<h1>🌸 eve. : AI-Powered Feminine Product Scanner & Search 🌸</h1>
 
-Eve is a web application designed to empower women with factual and easy-to-understand information about feminine products. Using **AI-powered analysis** and an intuitive **image scanner**, users can scan product packaging or search by name to learn about ingredients, side effects, and safer alternatives. 🚀✨
+eve. is a web application designed to empower women with factual and easy-to-understand information about feminine products. Using **AI-powered analysis** and an intuitive **image scanner**, users can scan product packaging or search by name to learn about ingredients, side effects, and safer alternatives. 🚀✨
 
 ---
 
