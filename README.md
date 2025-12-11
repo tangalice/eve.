@@ -1,12 +1,13 @@
 <div style = "background-color: #ffefef; padding: 20px; color: #7D5C5C">
 
-<h1>🌸 eve.  : AI-Powered Feminine Product Scanner/Search 🌸</h1>
+<h1>eve.  : AI-Powered Feminine Product Scanner/Search </h1>
+<p><strong>🏆 Winner: 1st Place (Health & Fitness)</strong> — Purdue InnovateHer 2025 Hackathon</p>
 
-eve. is a web application designed to empower women with factual and easy-to-understand information about feminine products. Using **AI-powered analysis** and an intuitive **image scanner**, users can scan product packaging or search by name to learn about ingredients, side effects, and safer alternatives. 🚀✨
+eve. is a web application designed to empower women with factual and easy-to-understand information about feminine products. Using **AI-powered analysis** and an intuitive **image scanner**, users can scan product packaging or search by name to learn about ingredients, side effects, and safer alternatives. 
 
 ---
 
-## 🌟 Features
+## Features
 
 - **📸 Product Scanner:**  
   Use your webcam to capture an image of a feminine product. The application identifies the product and provides detailed safety insights.
@@ -30,7 +31,7 @@ eve. is a web application designed to empower women with factual and easy-to-und
 
 ---
 
-## 🛠️ Installation & Setup
+## Installation & Setup
 
 ### 1️⃣ Prerequisites
 - Python 3.8+
@@ -60,7 +61,7 @@ This application will run on http://127.0.0.1:5004
 python app.py
 ```
 
-## 📚 Technologies Used
+## Technologies Used
 
 - **Flask**: A lightweight and powerful Python web framework for building the backend. 🌐  
 - **Groq API**: An AI-powered API for generating insightful product analyses. 🤖  
